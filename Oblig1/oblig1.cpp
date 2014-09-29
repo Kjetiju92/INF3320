@@ -53,10 +53,16 @@ void sierpinskiGasket(unsigned int a, unsigned int b, unsigned int c, unsigned i
   } else {
     // Generate new vertices and call this function recursively
     // ... insert your code here ...
+    // Inserts new vertices into the vertices array. These vertices are the mid point 
+    // on the current triangle. The first midpoint is between point a and point b
+    // second point b and point c and last point a and c. 
     vertices.push_back(Vertex((vertices[a].position + vertices[b].position) / 2.0f));
     vertices.push_back(Vertex((vertices[b].position + vertices[c].position) / 2.0f));
     vertices.push_back(Vertex((vertices[a].position + vertices[c].position) / 2.0f));
     
+    // Assign a new uint to be the size of the vertices array. This is done 
+    // because the size will change after the first call on sierpinskiGasket function.
+    // Then calls the sierpinskiGasket() function recursive.
     unsigned int size = vertices.size();
     sierpinskiGasket(a, size-3, size-1, level-1);
     sierpinskiGasket(size-3, b, size-2, level-1);
@@ -82,9 +88,15 @@ void rebuildGasket() {
 void bindDataToBuffers() {
   // Bind VBOs and provide data to them
   // ... insert your code here ...
+  // Binds a buffer object for vertices as a GL_ARRAY_BUFFER
+  // Then describes where to read the vertices data from in glBufferData()
+  // Here OpenGL will read vertices.size() objects from the vertices array.
   glBindBuffer(GL_ARRAY_BUFFER, verticesVertexBufferObjectId);
   glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
   
+  // Binds a buffer object for indices as a GL_ELEMENT_ARRAY_BUFFER
+  // Then describes where to read the indices data from in glBufferData()
+  // Here OpenGL will read indices.size() objects from the indices array.
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesVertexBufferObjectId);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
   // ... end of your code ... 
@@ -103,6 +115,8 @@ void myInit()
   
   // Generate VBO ids
   // ... insert your code here ...
+  // Allocating the names used for the buffer containing 
+  // vertices and the buffer containing the indices
   glGenBuffers(1, &verticesVertexBufferObjectId);
   glGenBuffers(1, &indicesVertexBufferObjectId);
   // ... end of your code ... 
@@ -123,6 +137,8 @@ void myKeyboard(unsigned char key, int /* x */, int /* y */)
       level++;
       // Rebuild gasket and bind data to buffers
       // ... insert your code here ...
+      // Here we rebuild the gasket from level level.
+      // Increasing the number of triangles.
       rebuildGasket();
       bindDataToBuffers();
       // ... end of your code ...
@@ -131,6 +147,8 @@ void myKeyboard(unsigned char key, int /* x */, int /* y */)
       level = level > 0 ? level-1 : 0;
       // Rebuild gasket and bind data to buffers
       // ... insert your code here ...
+      // Here we rebuild the gasket from level level.
+      // Decreasing the number of triangles.
       rebuildGasket();
       bindDataToBuffers();
       // ... end of your code ... 
@@ -147,16 +165,35 @@ void myDisplay()
  
   // Bind VBO's and call a drawing function
   // ... insert your code here ...
+  // Here if the buffer object verticesVertexBufferObject is not allready
+  // created OpenGL will create a new buffer object for the vertices. Else 
+  // OpenGL will activate this buffer.
   glBindBuffer(GL_ARRAY_BUFFER, verticesVertexBufferObjectId);
   
+  // Setup a vertex pointer.
+  // The number of coordinates are set to 2 (since we are only using x and y)
   glVertexPointer(2, GL_FLOAT, sizeof(Vertex), BUFFER_OFFSET(0));
+  
+  // Enables the client side capability GL_VERTEX_ARRAY since all this capabilities
+  // are disabled by default
   glEnableClientState(GL_VERTEX_ARRAY);
   
+  
+  // Binds the indices buffer name to a GL_ELEMENT_ARRAY_BUFFER. If this 
+  // is first time we try to bind this buffer, the buffer will be created.
+  // Else this buffer is set to be active
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesVertexBufferObjectId);
 
+  // Makes the triangles white colored
   glColor3f(1.0f, 1.0f, 1.0f);
+  
+  // Here OpenGL will store the geometric primitives that we want to be displayed
+  // The mode is here Triangles which indicates that we are using triangles. 
+  // The count (number of elements) is here set to be the number of elements in the 
+  // indices array
   glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, (void*)0);
 
+  // Unbind 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   // ... end of your code ... 
   
@@ -170,6 +207,8 @@ void myDisplay()
 void myShutdown() {
   // Delete VBOs
   // ... insert your code here ...
+  // On shutdown we free the names for the vertices 
+  // buffer and the indices buffer
   glDeleteBuffers(1, &verticesVertexBufferObjectId);
   glDeleteBuffers(1, &indicesVertexBufferObjectId);
   // ... end of your code ... 

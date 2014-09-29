@@ -1,0 +1,9 @@
+Feedback - Obligatory assignment 1 - INF3320
+Student: kjetiju
+Status: Approved
+--------------------------------------------
+Program compiles and runs like expected.
+
+Instead of findning your midpoints "manually", you could have utilized your math libary; GLM. GLM has a function called lerp (linear interpolation) that we can use to find the midpoint. This function takes 3 arguments; two GLM vectors and a float (called a weight). This float is a number between 0 and 1 and decides where between the two points we are going. As you might have guessed 0.5 gives us the midpoint.
+
+Well done!
