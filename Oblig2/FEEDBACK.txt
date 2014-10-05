@@ -1,0 +1,9 @@
+Feedback - Obligatory assignment 2 - INF3320
+Student: kjetiju
+Status: Approved
+--------------------------------------------
+Program compiles and runs like expected.
+
+You don't need to say SimpleViewer to refer to every variable in a class when creating a function inside this class. I see you only do this in the start of your code, so I guess you found out yourself.
+
+Other than that the program seems correctly implemented. Well done!
