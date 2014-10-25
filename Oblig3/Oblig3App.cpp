@@ -55,15 +55,10 @@ void Oblig3App::display() {
   m_shader_.Activate();
 
   glBindTexture(GL_TEXTURE_2D, m_texture_.GetTextureId());
-
-
-  GLuint texture = m_shader_.GetUniform("DiffuseTex");
-  GLuint specLoc = m_shader_.GetUniform("SpecularColor");
-  
+  glUniform1i(m_shader_.GetUniform("DiffuseTex"), 0);
 
   // Set the Specular Color uniform to be this vec4
-  glUniform4f(specLoc, 0.0f, 0.0f, 0.0f, 10.0f);
-  glUniform1i(texture, 1);
+  glUniform4f(m_shader_.GetUniform("SpecularColor"), 10.0f, 10.0f, 10.0f, 0.4f);
 
   
   // Render the sphere
@@ -75,7 +70,7 @@ void Oblig3App::display() {
   m_shader_.Deactivate();
 
   // DEBUG
-  // m_viewer_.renderDebugGraphics();
+  //m_viewer_.renderDebugGraphics();
 
   glutSwapBuffers();
   CHECK_OPENGL;
@@ -144,7 +139,7 @@ void Oblig3App::setupShaders() {
 void Oblig3App::setupLightParameters() {
   //Light atributes
   GLfloat black_light[] = {  0.0f,  0.0f,  0.0f,  1.0f };
-  GLfloat white_light[] = {  1.0f,  1.0f,  1.0f,  1.0f };
+  GLfloat white_light[] = {  1.0f,  1.0f,  1.0f,  10.0f };
   
   //Setup light 0
   glLightfv(GL_LIGHT0, GL_DIFFUSE,  white_light);
