@@ -48,18 +48,16 @@ void Oblig3App::display() {
   glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
   
   // skip
-  // Activate the sahader
-  // Bind the texture and bind it to the uniform in the shader
-  // Set the value of the SpecularColor uniform in the FragmentShader
-  //unskip
+  // Activate the shader
   m_shader_.Activate();
 
+  // Bind the texture and bind it to the uniform in the shader
   glBindTexture(GL_TEXTURE_2D, m_texture_.GetTextureId());
   glUniform1i(m_shader_.GetUniform("DiffuseTex"), 0);
 
-  // Set the Specular Color uniform to be this vec4
-  glUniform4f(m_shader_.GetUniform("SpecularColor"), 10.0f, 10.0f, 10.0f, 0.4f);
-
+  // Set the value of the SpecularColor uniform in the FragmentShader
+  glUniform4f(m_shader_.GetUniform("SpecularColor"), .5f, .5f, .3f, 20.0f);
+  //unskip
   
   // Render the sphere
   glm::mat4x4 model_view_matrix = m_viewer_.getModelViewMatrix();
@@ -70,7 +68,7 @@ void Oblig3App::display() {
   m_shader_.Deactivate();
 
   // DEBUG
-  //m_viewer_.renderDebugGraphics();
+  // m_viewer_.renderDebugGraphics();
 
   glutSwapBuffers();
   CHECK_OPENGL;
@@ -122,18 +120,18 @@ std::string Oblig3App::windowName() {
 
 void Oblig3App::setupShaders() {
   // skip
-  // Load and compile the shader files (see Shader class)
-  // Link the shader program
-  // unskip
-
+  // Load and compile the vertex shader file
   if (!m_shader_.CompileShader(GL_VERTEX_SHADER, GfxUtil::ReadTextfile("MyShader.vert")))
     std::cout << m_shader_.GetCompileLog(GL_VERTEX_SHADER);
 
+  // Load and compile the fragment shader file
   if (!m_shader_.CompileShader(GL_FRAGMENT_SHADER, GfxUtil::ReadTextfile("MyShader.frag")))
     std::cout << m_shader_.GetCompileLog(GL_FRAGMENT_SHADER);
 
+  // Link the shader program
   if (!m_shader_.LinkProgram())
     std::cout << m_shader_.GetLinkLog();
+  // unskip
 }
 
 void Oblig3App::setupLightParameters() {

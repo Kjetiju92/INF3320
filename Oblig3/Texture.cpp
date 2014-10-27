@@ -28,21 +28,16 @@ void Texture::Load(const std::string &filename) {
     // skip
     // Insert texture creation here
     // Use gli::createTexture2D to load and create texture name and bind it
-    // Set wrapping to repear in bith S and T directions
-    // Set linear interpolation for magnification and linear-mipmap-linear for minification
-    // Construct mipmaps
-    // unskip
     m_texture_id_ = gli::createTexture2D(filename);
-
+    // Set wrapping to repeat in bith S and T directions
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
+    // Set linear interpolation for magnification and linear-mipmap-linear for minification
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, m_texture_id_);
+    // Construct mipmaps
     glGenerateMipmap(GL_TEXTURE_2D);
+    // unskip
   }
 }
 
