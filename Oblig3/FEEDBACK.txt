@@ -1,0 +1,6 @@
+Feedback - Obligatory assignment 3 - INF3320
+Student: kjetiju
+Status: Approved
+--------------------------------------------
+Program compiles and runs like expected. (I have to change createTexture with the code we sent out on mail because it causes GL_INVALID_ENUM on Ifi computer and my own).
+Well done!
