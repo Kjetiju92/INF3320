@@ -176,10 +176,12 @@ namespace GfxUtil {
 
 	    if (j == i) {
 	      sortedElements[i].m_he->m_twin_ = NULL;
+	      printf("Boundary!\n");
 	    } else if (j == i+1) {
 	      sortedElements[j].m_he->m_twin_ = sortedElements[i].m_he;
 	      sortedElements[i].m_he->m_twin_ = sortedElements[j].m_he;
 	    } else {
+	      printf("Manifold\n");
 	      for (size_t k = i; k < j-1; k++) 
 		sortedElements[k].m_he->m_twin_ = NULL;
 	    }
@@ -189,8 +191,8 @@ namespace GfxUtil {
 
 	TriMesh* TriMesh::subdivide() {
 	  // Choose one call:
-	  return subdivideLoop();
-	  //return subdivideSqrt3();
+	  // return subdivideLoop();
+	  return subdivideSqrt3();
 	}
 
 }  // GfxUtil
