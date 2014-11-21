@@ -60,13 +60,13 @@ namespace GfxUtil {
 	}
 	
 	void SimpleViewer::zoomBegin(int x, int y) {
-		// skip
-		// handle beginning of zoom... (OPTIONAL)
-		// unskip
-		if (mZoomOut) 
-			m_camera_distance += 1;
-		else
-			m_camera_distance -= 1;
+	  // skip
+	  // handle beginning of zoom... (OPTIONAL)
+	  // unskip
+	  if (mZoomOut) 
+	    m_camera_distance += 1;
+	  else
+	    m_camera_distance -= 1;
 	}
 	
 	void SimpleViewer::resetState(int /*x*/, int /*y*/) {
@@ -87,16 +87,18 @@ namespace GfxUtil {
 			m_camera_orientation = t * m_rotation_orientation_i;
 		}
 		else if (m_state == PANNING) {
-			if (m_pan_position_i.x - x < m_pan_position_i.y -y) {
-				if (m_pan_position_i.y < y)
-					m_pan_position_c.x--;
-				else
-					m_pan_position_c.y++;
-			} else
-				if (m_pan_position_i.x < x) 
-					m_pan_position_c.y--;
-				else 
-					m_pan_position_c.x++;
+		  if (m_pan_position_i.x - x < m_pan_position_i.y -y) {
+		    if (m_pan_position_i.y < y)
+		      m_pan_position_c.y -= .5f;
+		    else
+		      m_pan_position_c.y += .5f;
+		  } else
+		    if (m_pan_position_i.x < x) {
+		      m_pan_position_c.x -= .5f;
+		      m_pan_position_c.y = m_pan_position_i.y;
+		    }
+		    else 
+		      m_pan_position_c.x += .5f;
 		}
 	}
 	
@@ -113,18 +115,18 @@ namespace GfxUtil {
 	* @return - A projection matrix
 	**/
 	glm::mat4x4 SimpleViewer::getProjectionMatrix() {
-			glm::mat4x4 r = glm::mat4x4(1.0f) * glm::frustum(-m_window_aspect, m_window_aspect, -1.0f, 1.0f, 1.0f, -1.0f);
+	  glm::mat4x4 r = glm::mat4x4(1.0f) * glm::frustum(-m_window_aspect, m_window_aspect, -1.0f, 1.0f, 1.0f, -1.0f);
 			
-			return glm::translate(r, m_pan_position_c);
+	  return glm::translate(r, m_pan_position_c);
 	}
 	
 	glm::mat4x4 SimpleViewer::getModelViewMatrix() {
-		glm::mat4x4 result;
-		// Moves the cube so it's in the center of the projection/camera view
-		result = glm::mat4x4(1.0f) * glm::translate(result, glm::vec3(0.0f, 0.0f, -m_camera_distance));
-		// Cast the quaternion to a matrix that fits the modelview matrix
-		result = result * glm::mat4_cast(m_camera_orientation);
-		return result;
+	  glm::mat4x4 result;
+	  // Moves the cube so it's in the center of the projection/camera view
+	  result = glm::mat4x4(1.0f) * glm::translate(result, glm::vec3(0.0f, 0.0f, -m_camera_distance));
+	  // Cast the quaternion to a matrix that fits the modelview matrix
+	  result = result * glm::mat4_cast(m_camera_orientation);
+	  return result;
 	}
 	
 	void SimpleViewer::renderDebugGraphics() {

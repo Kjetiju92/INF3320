@@ -86,7 +86,7 @@ namespace GfxUtil {
                 divider++;
                 
                 edge = edge->getVtxRingNext();
-            } while (edge != m_nodes[i].getLeadingHalfEdge());
+            } while (edge != m_nodes[i].getLeadingHalfEdge() && edge != NULL);
   
             m_nodes[i].m_N_ = glm::normalize(normalSum / divider);
         }

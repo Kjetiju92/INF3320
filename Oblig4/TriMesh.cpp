@@ -181,7 +181,7 @@ namespace GfxUtil {
 	      sortedElements[j].m_he->m_twin_ = sortedElements[i].m_he;
 	      sortedElements[i].m_he->m_twin_ = sortedElements[j].m_he;
 	    } else {
-	      printf("Manifold\n");
+	      printf("Non-manifold %d %d\n", i, j);
 	      for (size_t k = i; k < j-1; k++) 
 		sortedElements[k].m_he->m_twin_ = NULL;
 	    }
